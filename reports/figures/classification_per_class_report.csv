@@ -1,0 +1,8 @@
+class,precision,recall,f1,support
+brute_force,0.993,0.987,0.99,153
+credential_stuffing,0.976,0.988,0.982,84
+lateral_movement,0.964,0.964,0.964,56
+exfiltration,0.96,0.857,0.906,28
+insider_drift,0.889,1.0,0.941,16
+impossible_travel,1.0,1.0,1.0,8
+device_spoofing,0.857,1.0,0.923,6

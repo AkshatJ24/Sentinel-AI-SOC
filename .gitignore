@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.build/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Notebook and test caches
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# VS Code and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Project outputs
+reports/*.png
+reports/*.jpg
+reports/*.jpeg
+reports/*.svg
+reports/*.pdf
