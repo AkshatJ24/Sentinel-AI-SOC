@@ -11,7 +11,7 @@
 > An end-to-end machine learning pipeline that generates realistic behavioral access logs, profiles entity baselines with EMA-based online learning, detects anomalies using Isolation Forest and XGBoost+SMOTE, classifies attack types, and delivers SHAP-powered explainable alerts through a production-styled Security Operations Center (SOC) dashboard built with Streamlit.
 
 <p align="center">
-  <a href="YOUR_DEPLOYED_LINK_HERE">🌐 Live Demo</a> •
+  <a href="https://akshat-sentinel-ai-soc.streamlit.app/">🌐 Live Demo</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-pipeline-stages">Pipeline</a> •
   <a href="#-getting-started">Setup</a>
@@ -272,9 +272,7 @@ The application will open at `http://localhost:8501`. Use the sidebar to navigat
 
 ## 🌐 Deployment
 
-🔗 **Live Demo**: [YOUR_DEPLOYED_LINK_HERE](YOUR_DEPLOYED_LINK_HERE)
-
-<!-- Replace YOUR_DEPLOYED_LINK_HERE with the actual deployed URL after deployment -->
+🔗 **Live Demo**: [https://akshat-sentinel-ai-soc.streamlit.app/](https://akshat-sentinel-ai-soc.streamlit.app/)
 
 ---
 
