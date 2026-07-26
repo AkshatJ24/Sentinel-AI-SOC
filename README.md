@@ -46,7 +46,7 @@ The system profiles 250 entities (users, service accounts, edge devices) across 
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                         Sentinel AI Pipeline                        │
+│                         Sentinel AI Pipeline                         │
 ├──────────────┬──────────────┬──────────────┬──────────────┬──────────┤
 │  Phase 1     │  Phase 2-3   │  Phase 4     │  Phase 5     │ Phase 6  │
 │  Synthetic   │  EDA &       │  Anomaly     │  Attack      │ SHAP     │
@@ -60,7 +60,7 @@ The system profiles 250 entities (users, service accounts, edge devices) across 
 ├──────────────┴──────────────┴──────────────┴──────────────┴──────────┤
 │                     Phase 7 — SOC Dashboard (Streamlit)              │
 │  Dashboard │ Live Alerts │ Investigation │ Entity Search │ Analytics │
-│  Model Health │ Settings                                             │
+│                       Model Health │ Settings                        │          
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -144,13 +144,13 @@ The system profiles 250 entities (users, service accounts, edge devices) across 
 
 | Page | Description |
 |:---|:---|
-| **🏠 Dashboard** | SOC status overview — KPI cards, threat trend chart, severity distribution, recent alerts |
-| **🚨 Live Alerts** | Filterable alert queue ranked by risk score with severity-aware routing and investigation handoff |
-| **🔍 Investigation** | Deep-dive into a selected alert — SHAP waterfall, entity timeline, risk gauges, MITRE ATT&CK mapping, and analyst action recommendations |
-| **👤 Entity Search** | Entity profile lookup — session history timeline, resource access patterns, active alerts with investigation handoff |
-| **📊 Analytics** | Model performance metrics — ROC curve, confusion matrix, attack distribution, false positive analysis at active budget |
-| **🧠 Model Health** | Pipeline component health status — data pipeline, Isolation Forest, classifier, SHAP, and inference readiness |
-| **⚙ Settings** | Analyst workspace configuration — review threshold, replay mode, theme selection, CSV export of the active alert queue |
+| **🏠&nbsp;Dashboard** | SOC status overview — KPI cards, threat trend chart, severity distribution, recent alerts |
+| **🚨&nbsp;Live&nbsp;Alerts** | Filterable alert queue ranked by risk score with severity-aware routing and investigation handoff |
+| **🔍&nbsp;Investigation** | Deep-dive into a selected alert — SHAP waterfall, entity timeline, risk gauges, MITRE ATT&CK mapping, and analyst action recommendations |
+| **👤&nbsp;Entity&nbsp;Search** | Entity profile lookup — session history timeline, resource access patterns, active alerts with investigation handoff |
+| **📊&nbsp;Analytics** | Model performance metrics — ROC curve, confusion matrix, attack distribution, false positive analysis at active budget |
+| **🧠&nbsp;Model&nbsp;Health** | Pipeline component health status — data pipeline, Isolation Forest, classifier, SHAP, and inference readiness |
+| **⚙&nbsp;Settings** | Analyst workspace configuration — review threshold, replay mode, theme selection, CSV export of the active alert queue |
 
 ---
 
@@ -209,10 +209,9 @@ Sentinel-AI-SOC/
 1. **Clone the repository**
 
    ```bash
-  git clone https://github.com/AkshatJ24/Sentinel-AI-SOC.git
+   git clone https://github.com/AkshatJ24/Sentinel-AI-SOC.git
    cd Sentinel-AI-SOC
-   ```
-
+   
 2. **Create and activate a virtual environment**
 
    ```bash
