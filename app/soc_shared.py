@@ -51,7 +51,7 @@ def configure_page(title):
         page_title=f"{title} · Sentinel AI SOC",
         layout="wide",
         page_icon="🛡️",
-        initial_sidebar_state="expanded", 
+        initial_sidebar_state="expanded",
     )
     inject_css()
 
@@ -71,18 +71,26 @@ def inject_css():
         }
         /* ── Streamlit chrome ─────────────────────────────────────────────────── */
         #MainMenu, footer {visibility:hidden;}
-        /* Transparent header — keeps the sidebar expand chevron accessible */
         [data-testid="stHeader"] {
             background:transparent !important; border:none !important;
             box-shadow:none !important;
         }
         [data-testid="stToolbar"] {visibility:hidden !important;}
+        /* Keep the sidebar expand button in the header visible (Streamlit 1.48+) */
+        [data-testid="stHeader"] button[aria-label*="sidebar" i],
+        [data-testid="stHeader"] button[aria-label*="expand" i],
+        [data-testid="stHeader"] button[aria-label*="navigation" i],
+        [data-testid="stHeader"] [data-testid="collapsedControl"],
+        [data-testid="stHeader"] [data-testid="stSidebarCollapseButton"] {
+            visibility: visible !important;
+            opacity: 1 !important;
+            display: inline-flex !important;
+            pointer-events: auto !important;
+            z-index: 99999 !important;
+        }
         [data-testid="stDecoration"] {display:none !important;}
 
-                /* ── Sidebar width (fixed for collapse/expand) ───────────────────────── */
-        /* Only pin width when EXPANDED. When collapsed Streamlit must be allowed
-           to set width/margin to 0 / negative. Target the inner div, not the
-           section, so the native animation isn't killed by !important.          */
+        /* ── Sidebar width (fixed for collapse/expand) ───────────────────────── */
         [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
             width: 260px !important;
             min-width: 260px !important;
@@ -95,17 +103,32 @@ def inject_css():
             min-width: 0px !important;
             margin-left: 0px !important;
         }
-        /* Minimal padding on the first child so our brand appears close to the top */
         [data-testid="stSidebar"] > div:first-child {padding-top:0.3rem !important;}
 
-        /* ── MAKE COLLAPSE BUTTON VISIBLE ────────────────────────────────────── */
+        /* ── Hide auto-generated page list WITHOUT killing the toggle button ─── */
+        [data-testid="stSidebarNav"] ul {
+            display: none !important;
+        }
+        /* Hide nav link containers but NOT any buttons (toggle) inside */
+        [data-testid="stSidebarNav"] a[data-testid="stSidebarNavLink"],
+        [data-testid="stSidebarNav"] li {
+            display: none !important;
+        }
+
+        /* ── MAKE COLLAPSE / EXPAND BUTTON VISIBLE ───────────────────────────── */
+        /* Broad selectors to catch all Streamlit versions (1.30+) */
         [data-testid="stSidebar"] button[kind="headerNoPadding"],
         [data-testid="stSidebar"] button[aria-label*="collapse" i],
         [data-testid="stSidebar"] button[aria-label*="expand" i],
+        [data-testid="stSidebar"] button[aria-label*="Close" i],
         [data-testid="stSidebarNav"] button,
         [data-testid="stSidebarCollapseButton"],
         [data-testid="stSidebarNavCollapseButton"],
-        [data-testid="collapsedControl"] {
+        [data-testid="collapsedControl"],
+        button[data-testid="stSidebarCollapseButton"],
+        /* Catch-all for the sidebar's own collapse chevron */
+        section[data-testid="stSidebar"] > div > div > div > button,
+        [data-testid="stSidebar"] [data-testid="stSidebarCollapse"] {
             visibility: visible !important;
             opacity: 1 !important;
             pointer-events: auto !important;
@@ -118,9 +141,20 @@ def inject_css():
             z-index: 9999 !important;
             position: relative !important;
         }
+        /* Collapsed-state expand button (floats outside the sidebar) */
+        [data-testid="collapsedControl"],
+        [data-testid="stSidebar"][aria-expanded="false"] ~ div button,
+        button[aria-label*="sidebar" i] {
+            visibility: visible !important;
+            opacity: 1 !important;
+            display: inline-flex !important;
+            pointer-events: auto !important;
+            z-index: 99999 !important;
+        }
         [data-testid="stSidebar"] button[kind="headerNoPadding"]:hover,
         [data-testid="stSidebar"] button[aria-label*="collapse" i]:hover,
-        [data-testid="stSidebar"] button[aria-label*="expand" i]:hover {
+        [data-testid="stSidebar"] button[aria-label*="expand" i]:hover,
+        [data-testid="stSidebar"] button[aria-label*="Close" i]:hover {
             background: rgba(79,142,247,0.25) !important;
             border-color: rgba(79,142,247,0.5) !important;
             color: #FFFFFF !important;
@@ -141,7 +175,6 @@ def inject_css():
         section[data-testid="stSidebar"][aria-expanded="false"]::before {
             display: none;
         }
-        /* Sidebar slider styling */
 
         /* ── Sidebar slider styling ──────────────────────────────────────────── */
         [data-testid="stSidebar"] .stSlider {padding:0 .1rem;}
@@ -162,29 +195,21 @@ def inject_css():
 
         /* ── Layout ───────────────────────────────────────────────────────────── */
         .block-container {max-width:1600px; padding:1.45rem 2rem 3.4rem;}
+        /* Ensure Streamlit's wrapper divs don't centre queue rows */
+        [data-testid="stMarkdownContainer"]:has(.queue-header),
+        [data-testid="stMarkdownContainer"]:has(.queue-row) {
+            width: 100% !important;
+            text-align: left !important;
+        }
+        .stMarkdown:has(.queue-header),
+        .stMarkdown:has(.queue-row) {
+            width: 100% !important;
+        }
         h1,h2,h3,h4,p,div,span,label {
           font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
         }
         h1,h2,h3,h4 {color:var(--text) !important; letter-spacing:-.03em;}
         h2 {font-size:1.16rem !important; margin-top:1rem !important;}
-
-        /* ── Header gap filler (only when sidebar is expanded) ───────────────── */
-        section[data-testid="stSidebar"][aria-expanded="true"]::before {
-            content:'';
-            position:fixed;
-            top:0; left:0;
-            width:260px;
-            height:var(--header-height, 3.75rem);
-            background:#11151D;
-            border-right:1px solid var(--border,#2A2F3A);
-            z-index:100;
-            pointer-events:none;
-        }
-        section[data-testid="stSidebar"][aria-expanded="false"]::before {
-            display: none;
-        }
-
-        /* ── (rest of your design system unchanged) ──────────────────────────── */
         .brand {padding:.12rem .1rem .9rem;border-bottom:1px solid var(--border);margin-bottom:.72rem;}
         .brand h1 {font-size:1.12rem !important;margin:0 0 .16rem !important;}
         .brand p {color:var(--muted);font-size:.64rem;letter-spacing:.08em;margin:0;}
@@ -220,14 +245,14 @@ def inject_css():
         .badge-medium {background:rgba(245,166,35,.14);color:#FFD17A;border:1px solid rgba(245,166,35,.28);}
         .badge-low {background:rgba(46,204,113,.13);color:#8DE4AE;border:1px solid rgba(46,204,113,.28);}
         .risk-pill {display:inline-block;color:#EAF1FB;background:rgba(79,142,247,.14);border:1px solid rgba(79,142,247,.24);border-radius:999px;padding:.2rem .44rem;font-weight:700;font-size:.68rem;}
-        .queue-header,.queue-row {display:grid;grid-template-columns:1.05fr .63fr 1.18fr 1.25fr 1.08fr .72fr 2.3fr .86fr;gap:.62rem;}
-        .queue-header {padding:.58rem .66rem;color:var(--muted);font-size:.61rem;font-weight:760;letter-spacing:.07em;text-transform:uppercase;background:#161B23;border:1px solid var(--border);border-radius:10px 10px 0 0;position:sticky;top:0;z-index:4;}
-        .queue-row {align-items:center;padding:.62rem .66rem;border:1px solid rgba(42,47,58,.86);border-top:0;background:rgba(23,27,34,.84);font-size:.7rem;}
+        .queue-header,.queue-row {display:grid;grid-template-columns:1.05fr .63fr 1.18fr 1.25fr 1.08fr .72fr 2.3fr .86fr;gap:.62rem;text-align:left;justify-items:start;}
+        .queue-header {padding:.58rem .66rem;color:var(--muted);font-size:.61rem;font-weight:760;letter-spacing:.07em;text-transform:uppercase;background:#161B23;border:1px solid var(--border);border-radius:10px 10px 0 0;position:sticky;top:0;z-index:4;width:100%;}
+        .queue-row {align-items:center;padding:.62rem .66rem;border:1px solid rgba(42,47,58,.86);border-top:0;background:rgba(23,27,34,.84);font-size:.7rem;width:100%;}
         .queue-row:hover {background:rgba(79,142,247,.07);}
         .queue-row.critical {border-left:3px solid var(--red);} .queue-row.high {border-left:3px solid #FF7A59;}
         .queue-row.medium {border-left:3px solid var(--orange);} .queue-row.low {border-left:3px solid var(--green);}
-        .queue-cell,.queue-explanation {color:#D9E1EB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-        .queue-explanation {color:#ABB7C8;} .queue-action {color:#AECBFF;border:1px solid rgba(79,142,247,.3);border-radius:6px;padding:.24rem .38rem;text-align:center;font-weight:700;}
+        .queue-cell,.queue-explanation {color:#D9E1EB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;}
+        .queue-explanation {color:#ABB7C8;text-align:left;} .queue-action {color:#AECBFF;border:1px solid rgba(79,142,247,.3);border-radius:6px;padding:.24rem .38rem;text-align:center;font-weight:700;}
         .summary-card {padding:1rem 1.05rem;background:linear-gradient(130deg,rgba(79,142,247,.14),rgba(23,27,34,.94) 36%,rgba(23,27,34,.94));border:1px solid rgba(79,142,247,.3);border-radius:14px;}
         .summary-card h3 {margin:.38rem 0 .78rem !important;font-size:1.18rem !important;}
         .summary-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.62rem;}
@@ -241,7 +266,7 @@ def inject_css():
         .action-card p {margin:0;color:var(--muted);font-size:.65rem;line-height:1.38;}
         .action-danger {border-top:2px solid var(--red);} .action-warning {border-top:2px solid var(--orange);}
         .action-primary {border-top:2px solid var(--blue);} .action-success {border-top:2px solid var(--green);}
-        .model-health {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.54rem;}
+        .model-health {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.54rem;margin-bottom:1.8rem;}
         .health-item {padding:.65rem;border:1px solid rgba(46,204,113,.18);border-radius:9px;background:rgba(46,204,113,.045);}
         .health-item span {display:block;color:var(--muted);font-size:.63rem;}.health-item strong {display:block;color:#8DE4AE;font-size:.72rem;margin-top:.2rem;}
         .empty-state {border:1px dashed #3B4453;background:rgba(23,27,34,.65);border-radius:12px;color:var(--muted);padding:1.3rem;text-align:center;font-size:.8rem;}
@@ -260,7 +285,7 @@ def inject_css():
         </style>
         """,
         unsafe_allow_html=True,
-    )
+    )   
     
 
 
@@ -458,7 +483,7 @@ def render_sidebar(workspace, active_page):
         st.markdown("<div class='side-divider'></div><div class='side-label'>Navigation</div>", unsafe_allow_html=True)
     _navigate(
         "🏠  Dashboard ◀" if active_page == "Dashboard" else "🏠  Dashboard",
-        "dashboard_chatgpt.py",
+        "dashboard.py",
         "dashboard",
         active_page == "Dashboard",
     )

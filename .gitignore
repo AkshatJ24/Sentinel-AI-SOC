@@ -23,8 +23,4 @@ env/
 Thumbs.db
 
 # Project outputs
-reports/*.png
-reports/*.jpg
-reports/*.jpeg
-reports/*.svg
-reports/*.pdf
+Files/
