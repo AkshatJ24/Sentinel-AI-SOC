@@ -35,13 +35,16 @@ COLORS = {
 
 SEVERITY_ORDER = ["Critical", "High", "Medium", "Low"]
 
+# Keys must match the attack labels emitted by src/data_generator.py so the
+# classifier's predicted_type resolves to a real technique (not the fallback).
 MITRE_MAPPING = {
     "brute_force": ("T1110", "Brute Force"),
-    "impossible_travel": ("T1078", "Valid Accounts"),
-    "data_exfiltration": ("T1041", "Exfiltration Over C2 Channel"),
     "credential_stuffing": ("T1110.004", "Credential Stuffing"),
+    "impossible_travel": ("T1078", "Valid Accounts"),
     "lateral_movement": ("T1021", "Remote Services"),
-    "privilege_escalation": ("T1068", "Exploitation for Privilege Escalation"),
+    "exfiltration": ("T1041", "Exfiltration Over C2 Channel"),
+    "device_spoofing": ("T1036", "Masquerading"),
+    "insider_drift": ("T1078", "Valid Accounts"),
 }
 
 

@@ -1,11 +1,16 @@
-pandas>=2.0.0
-numpy>=1.24.0
-faker>=19.0.0
-scikit-learn>=1.2.0
-xgboost>=1.7.0
-imbalanced-learn>=0.10.0
-shap>=0.42.0
-matplotlib>=3.7.0
-seaborn>=0.12.0
-plotly>=5.14.0
-streamlit>=1.22.0
+# Pinned to the versions this project was last run and verified against,
+# so `pip install -r requirements.txt` reproduces a known-working environment.
+# Note: the committed model artifacts in data/processed/*.pkl were trained with
+# slightly older scikit-learn/XGBoost; loading them may emit a version warning.
+# To silence it, regenerate the artifacts by re-running the src/ pipeline.
+pandas==3.0.5
+numpy==2.4.6
+faker==40.36.0
+scikit-learn==1.9.0
+xgboost==3.3.0
+imbalanced-learn==0.14.2
+shap==0.52.0
+matplotlib==3.11.1
+seaborn==0.13.2
+plotly==6.9.0
+streamlit==1.60.0

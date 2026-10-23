@@ -391,8 +391,8 @@ def generate_dataset(n_entities=250):
 
 if __name__ == "__main__":
     features_df, labels_df, profiles = generate_dataset(n_entities=250)
-    features_df.to_csv("/home/claude/behavioral-anomaly-detection/data/raw/access_logs.csv", index=False)
-    labels_df.to_csv("/home/claude/behavioral-anomaly-detection/data/labels/labels.csv", index=False)
+    features_df.to_csv("data/raw/access_logs.csv", index=False)
+    labels_df.to_csv("data/labels/labels.csv", index=False)
     print("\nSaved:")
     print(" - data/raw/access_logs.csv", features_df.shape)
     print(" - data/labels/labels.csv", labels_df.shape)
